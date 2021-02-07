@@ -26,14 +26,14 @@ BUILD NOTES:
 
 To build this you will need the following:
 
-  rcasm from https://github.com/rileym65/RcAsm
-  bios.inc from https://github.com/rileym65/Elf-BIOS
-  kernel.inc from https://github.com/rileym65/Elf-Elfos-Kernel
+<ul><li>rcasm from https://github.com/rileym65/RcAsm
+<li>bios.inc from https://github.com/rileym65/Elf-BIOS
+<li>kernel.inc from https://github.com/rileym65/Elf-Elfos-Kernel</ul>
 
 If you want a binary output file you’ll want:
 
-  hextobin from https://groups.io/g/cosmacelf/message/29542
-  ... plus the patch from https://groups.io/g/cosmacelf/message/29926
+<ul><li>hextobin from https://groups.io/g/cosmacelf/message/29542<br>
+... plus the patch from https://groups.io/g/cosmacelf/message/29926</ul>
 
 If you are able to use the hex output from rcasm you can just remove hextobin from the makefile.
 
