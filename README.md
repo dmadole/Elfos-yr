@@ -21,3 +21,21 @@ NOTE:
 There is a new release of nitro that corrects an off-by-one situation that causes a slight inaccuracy in baud rates. It doesn’t normally cause a noticeable issue with the console, but it can create errors with file transfers, so it is highly recommended to use this release if you are going to use nitro with yr.
 
 The release builds are only for machines with Pico/Elf like soft UART ports. If you would like a build for something else, let me know.
+
+BUILD NOTES:
+
+To build this you will need the following:
+
+  rcasm from https://github.com/rileym65/RcAsm
+  bios.inc from https://github.com/rileym65/Elf-BIOS
+  kernel.inc from https://github.com/rileym65/Elf-Elfos-Kernel
+
+If you want a binary output file you’ll want:
+
+  hextobin from https://groups.io/g/cosmacelf/message/29542
+  ... plus the patch from https://groups.io/g/cosmacelf/message/29926
+
+If you are able to use the hex output from rcasm you can just remove hextobin from the makefile.
+
+This also needs some fixes to correct omissions in the 1802.def file that is in rcasm, you'll need to apply the diff file 1802.def.diff when you build rcasm.
+
