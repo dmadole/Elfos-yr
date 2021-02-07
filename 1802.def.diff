@@ -1,16 +1,15 @@
-# diff -c RcAsm/1802.def RcAsm-local/1802.def
-*** RcAsm/1802.def      2021-02-07 13:31:11.367329800 -0500
---- RcAsm-local/1802.def        2021-01-26 07:59:21.977329800 -0500
+*** RcAsm/1802.def	2021-02-07 15:00:04.478329800 -0500
+--- RcAsm-local/1802.def	2021-01-26 07:59:21.977329800 -0500
 ***************
 *** 96,103 ****
   FA lo(1)
-  ANI   \W.1
+  ANI	\W.1
   FA hi(1)
 - B1 \W
 - 34 lo(1)
-  B1    \B
+  B1	\B
   34 \1
-  B1    \W.0
+  B1	\W.0
 --- 96,101 ----
 ***************
 *** 364,375 ****
@@ -18,34 +17,34 @@
   F5
   SDB
   75
-+ SDBI  LOW \W
++ SDBI	LOW \W
 + 7D lo(1)
-+ SDBI  HIGH \W
++ SDBI	HIGH \W
 + 7D hi(1)
-  SDBI  \B
+  SDBI	\B
   7D \1
-  SDBI  \W.0
+  SDBI	\W.0
   7D lo(1)
-  SDBI  \W.1
+  SDBI	\W.1
   7D hi(1)
-+ SDI   LOW \W
++ SDI	LOW \W
 + FD lo(1)
-+ SDI   HIGH \W
++ SDI	HIGH \W
 + FD hi(1)
-  SDI   \B
+  SDI	\B
   FD \1
-  SDI   \W.0
+  SDI	\W.0
 ***************
 *** 410,415 ****
 --- 416,423 ----
   7F lo(1)
-  SMBI  \W.1
+  SMBI	\W.1
   7F hi(1)
 + SMI     HIGH \W
 + FF hi(1)
   SMI     LOW \W
   FF lo(1)
-  SMI   \B
+  SMI	\B
 ***************
 *** 428,433 ****
 --- 436,443 ----
@@ -54,9 +53,9 @@
   FB hi(1)
 + XRI     LOW \W
 + FB lo(1)
-  XRI   \B
+  XRI	\B
   FB \1
-  XRI   \W.0
+  XRI	\W.0
 ***************
 *** 438,443 ****
 --- 448,455 ----
