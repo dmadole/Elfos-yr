@@ -1061,12 +1061,13 @@ loop1024:  sep     r7                  ; receive expected packets to buffer
            bnz     loop1024
 
            ghi     rb
-checkbuf:  SERN    rcverror
+checkbuf:  SERN    rcverrsh
            smi     1 
-           SERN    rcverror
+           SERN    rcverrsh
            bnz     checkbuf
 
            lbr     received
+rcverrsh:  lbr     rcverror
 
 ; Input
 ;
