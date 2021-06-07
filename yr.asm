@@ -74,10 +74,10 @@ start:     org     2000h
 
            ; Build information
 
-           db      1+80h              ; month
-           db      21                 ; day
+           db      6+80h              ; month
+           db      7                  ; day
            dw      2021               ; year
-           dw      1                  ; build
+           dw      2                  ; build
 text:      db      'Written by David S. Madole',0
 
 
