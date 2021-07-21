@@ -11,18 +11,14 @@
 
            ; Include BIOS and kernal API entry points
 
-           include include/bios.inc
-           include include/kernel.inc
+           include bios.inc
+           include kernel.inc
 
 
            ; Define non-published API elements
 
 version    equ     0400h
 himem      equ     0442h
-d_type     equ     0444h
-d_msg      equ     0447h
-d_readkey  equ     0454h
-d_input    equ     0457h
 
 
            ; Pin and polarity definitions from BIOS suitable for Pico/Elf
@@ -69,15 +65,15 @@ len1kb     equ     2 + 1024 + 2        ; and two crc bytes after data
            dw      start
 
 start:     org     2000h
-           br      scanopts
+           br      main
 
 
            ; Build information
 
-           db      6+80h              ; month
-           db      7                  ; day
+           db      7+80h              ; month
+           db      18                 ; day
            dw      2021               ; year
-           dw      2                  ; build
+           dw      3                  ; build
 text:      db      'Written by David S. Madole',0
 
 
@@ -143,6 +139,20 @@ text:      db      'Written by David S. Madole',0
 
            ; Main code starts
 
+main:      ldi     high k_ver         ; pointer to running version
+           phi     r8
+           ldi     low k_ver
+           plo     r8
+
+           lda     r8
+           lbnz    scanopts
+
+           lda     r8
+           smi     4
+           lbnf    versfail
+
+           ; Check command line options
+
 scanopts:  ldi     0
            plo     rb
 
@@ -166,12 +176,12 @@ skipspac:  ldn     ra                 ; skip any spaces on command line,
            plo     rb
            lbr     skipspac
 
-           ; Check if d_readkey points to BIOS, if so we will interpret RE.1
+           ; Check if o_readkey points to BIOS, if so we will interpret RE.1
            ; as a BIOS-compatible baud rate, otherwise as nitro-compatible.
 
-nooption:  ldi     high (d_readkey+1)
+nooption:  ldi     high (o_readkey+1)
            phi     rf
-           ldi     low (d_readkey+1)
+           ldi     low (o_readkey+1)
            plo     rf
 
            ldn     rf                  ; If below f800h then use nitro rates
@@ -841,6 +851,20 @@ writfail:  sep     scall
            sep     sret
 
 writmesg:  db      'Write output file failed',13,10,0
+
+versfail:  sep     scall
+           dw      o_close
+
+           ldi     high versmesg
+           phi     rf
+           ldi     low versmesg
+           plo     rf
+
+           sep     scall
+           dw      o_msg
+           sep     sret
+
+versmesg:  db      'Requires kernel 0.4.0 or later',13,10,0
 
 
 
