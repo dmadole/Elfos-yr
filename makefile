@@ -1,15 +1,7 @@
-PROJECT = yr
 
-$(PROJECT).prg: $(PROJECT).asm bios.inc kernel.inc
-	rcasm -l -v -x -d 1802 $(PROJECT) > $(PROJECT).lst
-	cat $(PROJECT).lst
-	hextobin $(PROJECT)
-
-crc: crc.c
-	cc -o crc crc.c
+yr.bin: yr.asm include/bios.inc include/kernel.inc
+	asm02 -l -b yr.asm
 
 clean:
-	-rm -f $(PROJECT).bin
-	-rm -f $(PROJECT).prg
-	-rm -f $(PROJECT).lst
+	-rm -f yr.bin yr.lst
 

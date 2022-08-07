@@ -11,14 +11,14 @@
 
            ; Include BIOS and kernal API entry points
 
-           include bios.inc
-           include kernel.inc
+#include include/bios.inc
+#include include/kernel.inc
 
 
            ; Define non-published API elements
 
-version    equ     0400h
-himem      equ     0442h
+version:   equ     0400h
+himem:     equ     0442h
 
 
            ; Pin and polarity definitions from BIOS suitable for Pico/Elf
@@ -31,30 +31,30 @@ himem      equ     0442h
 
            ; ASCII control characters used in X/YMODEM
 
-soh        equ     1                   ; starts 128 byte packet
-stx        equ     2                   ; starts 1024 byte packet
-etx        equ     3                   ; cancel entire transfer
-eot        equ     4                   ; signals end of file
-ack        equ     6                   ; affirms good packet
-nak        equ     21                  ; rejects bad packet
-can        equ     24                  ; cancel entire transfer
-crc        equ     67 ; ('C')          ; requests crc not checksum
+soh:       equ     1                   ; starts 128 byte packet
+stx:       equ     2                   ; starts 1024 byte packet
+etx:       equ     3                   ; cancel entire transfer
+eot:       equ     4                   ; signals end of file
+ack:       equ     6                   ; affirms good packet
+nak:       equ     21                  ; rejects bad packet
+can:       equ     24                  ; cancel entire transfer
+crc:       equ     67 ; ('C')          ; requests crc not checksum
 
 
            ; Flag bits in RE.0 user by X/YMODEM protocol receiver
 
-cksum      equ     1                   ; use checksum instead of crc
-donak      equ     2                   ; send nak instead of c to nak
-batch      equ     4                   ; batch mode transfer started
-first      equ     8                   ; have seen the first data packet
-fopen      equ     16
-flags      equ     255                 ; all flag bits set
+cksum:     equ     1                   ; use checksum instead of crc
+donak:     equ     2                   ; send nak instead of c to nak
+batch:     equ     4                   ; batch mode transfer started
+first:     equ     8                   ; have seen the first data packet
+fopen:     equ     16
+flags:     equ     255                 ; all flag bits set
 
 
            ; Lengths of 128 and 1024 byte packets with sequence and crc
 
-len128     equ     2 + 128 + 2         ; each has two sequence bytes before
-len1kb     equ     2 + 1024 + 2        ; and two crc bytes after data
+len128:    equ     2 + 128 + 2         ; each has two sequence bytes before
+len1kb:    equ     2 + 1024 + 2        ; and two crc bytes after data
 
 
            ; Executable program header
@@ -70,11 +70,11 @@ start:     org     2000h
 
            ; Build information
 
-           db      7+80h              ; month
-           db      18                 ; day
-           dw      2021               ; year
-           dw      3                  ; build
-text:      db      'Written by David S. Madole',0
+           db      8+80h              ; month
+           db      6                  ; day
+           dw      2022               ; year
+           dw      4                  ; build
+text:      db      'See github.com/dmadole/Elfos-yr for more info',0
 
 
            ; A note about the +255 stuff that will be found in this code:
@@ -184,9 +184,19 @@ nooption:  ldi     high (o_readkey+1)
            ldi     low (o_readkey+1)
            plo     rf
 
-           ldn     rf                  ; If below f800h then use nitro rates
+           ldn     rf                  ; if below f800h then use nitro rates
            smi     0f8h
            lbnf    uncomprs
+
+           ldi     high 0fff9h         ; get major version
+           phi     rf
+           ldi     low 0fff9h
+           plo     rf
+
+           ldn     rf                  ; if 2 then mbios, use nitro rates
+           smi     2
+           lbz     uncomprs
+
 
            ; BIOS UART bit time measurement is 8 times the value in RE.1 plus
            ; 32 as measured in machine cycles. We need to convert this to
